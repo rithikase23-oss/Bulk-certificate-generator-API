@@ -1,0 +1,8 @@
+{
+  "name": "Bulk Certificate Generator API",
+  "description": "Production-ready, beginner-friendly FastAPI backend with SQLAlchemy, ReportLab PDF generation, resilient error isolation, Pytest suite, and interactive playground.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

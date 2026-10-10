@@ -1,0 +1,48 @@
+# Render Blueprint Specification
+# Reference: https://render.com/docs/blueprint-spec
+# Beginner Note:
+# Render uses this file to automatically provision:
+# 1. A Python Web Service running FastAPI with Uvicorn
+# 2. A Persistent Disk to store generated PDFs so they survive server restarts
+# 3. An optional managed PostgreSQL relational database instance
+
+services:
+  - type: web
+    name: bulk-certificate-generator-api
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+      - key: APP_ENV
+        value: production
+      - key: STORAGE_DIR
+        value: /var/data/certificates
+      # Optional: Connect to managed Render PostgreSQL instance
+      # If omitted or unlinked, the application defaults to local SQLite automatically
+      - key: DATABASE_URL
+        fromDatabase:
+          name: certificates-postgres-db
+          property: connectionString
+
+    # Persistent Storage Configuration
+    # Web services in the cloud have ephemeral (temporary) filesystems.
+    # Mounting a persistent disk ensures that generated PDF certificates and ZIPs
+    # are permanently preserved across deployments and dyno restarts.
+    disk:
+      name: certificate-storage-disk
+      mountPath: /var/data/certificates
+      sizeGB: 1
+
+# Optional managed PostgreSQL relational database
+databases:
+  - name: certificates-postgres-db
+    databaseName: certificates_db
+    user: cert_user
+    region: oregon
+    plan: free

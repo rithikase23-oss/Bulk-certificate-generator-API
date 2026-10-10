@@ -1,0 +1,39 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local databases and SQLite files
+*.db
+*.sqlite
+*.sqlite3
+certificates.db
+
+# Storage directory containing generated PDFs and ZIPs
+certificates_storage/
+test_cert_storage_*/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.local
+
+# Node & frontend artifacts (for web interface)
+node_modules/
+dist/
+.dist/
+
+# OS and Editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
